@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #ebdbb2;
+  background-color: #1d2021;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(215, 153, 33, 0.12), transparent 20%),
+    radial-gradient(circle at 80% 10%, rgba(69, 133, 136, 0.12), transparent 18%),
+    linear-gradient(180deg, #1d2021 0%, #282828 60%, #1d2021 100%);
+  color: #ebdbb2;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+.glass-card {
+  @apply bg-surface-800/90 backdrop-blur-xl border border-surface-600/80 shadow-card;
+}
+
+.section-title {
+  @apply text-sm font-semibold tracking-wide uppercase text-brand-200;
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, #d79921 0%, #b57614 45%, #7c2f10 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
