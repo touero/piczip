@@ -1,26 +1,41 @@
-<script setup>
-const props = defineProps({
-  options: {
-    type: Object,
-    required: true,
-  },
-  disabled: Boolean,
-  isProcessing: Boolean,
-  progress: {
-    type: Number,
-    default: 0,
-  },
-  queueCount: {
-    type: Number,
-    default: 0,
-  },
+<script setup lang="ts">
+import type { CompressionOptions, OutputFormat } from '../utils/compress'
+
+interface Props {
+  options: CompressionOptions
+  disabled?: boolean
+  isProcessing?: boolean
+  progress?: number
+  queueCount?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  disabled: false,
+  isProcessing: false,
+  progress: 0,
+  queueCount: 0,
 })
 
-  const emit = defineEmits(['update:options', 'start'])
+const emit = defineEmits<{
+  'update:options': [value: CompressionOptions]
+  start: []
+}>()
 
-  const onChange = (key, value) => {
-    emit('update:options', { ...props.options, [key]: value })
-  }
+const onChange = <K extends keyof CompressionOptions>(key: K, value: CompressionOptions[K]) => {
+  emit('update:options', { ...props.options, [key]: value })
+}
+
+const onQualityInput = (event: Event) => {
+  onChange('quality', Number((event.target as HTMLInputElement).value))
+}
+
+const onMaxDimensionInput = (event: Event) => {
+  onChange('maxDimension', Number((event.target as HTMLInputElement).value))
+}
+
+const onFormatChange = (event: Event) => {
+  onChange('format', (event.target as HTMLSelectElement).value as OutputFormat)
+}
 </script>
 
 <template>
@@ -48,7 +63,7 @@ const props = defineProps({
           step="1"
           class="w-full accent-brand-500"
           :value="options.quality"
-          @input="(e) => onChange('quality', Number(e.target.value))"
+          @input="onQualityInput"
         />
       </div>
 
@@ -64,7 +79,7 @@ const props = defineProps({
           step="16"
           class="w-full accent-brand-500"
           :value="options.maxDimension"
-          @input="(e) => onChange('maxDimension', Number(e.target.value))"
+          @input="onMaxDimensionInput"
         />
       </div>
 
@@ -73,7 +88,7 @@ const props = defineProps({
         <select
           :value="options.format"
           class="w-full rounded-xl border border-surface-600 px-3 py-2 bg-surface-700 text-brand-50 focus:outline-none focus:ring-2 focus:ring-brand-500"
-          @change="(e) => onChange('format', e.target.value)"
+          @change="onFormatChange"
         >
           <option class="bg-surface-700" value="auto">Keep original</option>
           <option class="bg-surface-700" value="image/webp">WebP</option>

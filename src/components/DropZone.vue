@@ -1,19 +1,24 @@
-<script setup>
-const emit = defineEmits(['files-selected'])
+<script setup lang="ts">
+const emit = defineEmits<{
+  'files-selected': [files: FileList]
+}>()
 
-const onSelect = (event) => {
-  const files = event.target.files
-  if (files?.length) emit('files-selected', files)
-  event.target.value = ''
+const onSelect = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const { files } = target
+  if (files?.length) {
+    emit('files-selected', files)
+  }
+  target.value = ''
 }
 
-const onDrop = (event) => {
+const onDrop = (event: DragEvent) => {
   event.preventDefault()
   const { files } = event.dataTransfer || {}
   if (files?.length) emit('files-selected', files)
 }
 
-const onDragOver = (event) => {
+const onDragOver = (event: DragEvent) => {
   event.preventDefault()
 }
 </script>

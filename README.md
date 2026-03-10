@@ -49,12 +49,12 @@ piczip/
 │  ├─ composables/    # Stateful logic (image compressor)
 │  ├─ pages/          # Top-level page layout
 │  ├─ utils/          # Helpers (compression, formatting, ids)
-│  └─ main.js         # App bootstrap
+│  └─ main.ts         # App bootstrap
 ├─ public/            # Static assets (includes piczip.svg favicon)
 ├─ index.html         # HTML entry + metadata
 ├─ tailwind.config.js # Tailwind setup (gruvbox palette)
 ├─ wrangler.toml      # Cloudflare Pages config
-└─ vite.config.js     # Vite config with alias @ → src
+└─ vite.config.ts     # Vite config with alias @ → src
 ```
 
 ## Deploy to Cloudflare Pages

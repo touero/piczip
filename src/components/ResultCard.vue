@@ -1,14 +1,14 @@
-<script setup>
-import { formatBytes, formatPercent } from '../utils/format.js'
+<script setup lang="ts">
+import { formatBytes, formatPercent } from '../utils/format'
+import type { ResultItem } from '../composables/useImageCompressor'
 
-defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-})
+defineProps<{
+  item: ResultItem
+}>()
 
-const emit = defineEmits(['remove'])
+const emit = defineEmits<{
+  remove: [id: string]
+}>()
 </script>
 
 <template>

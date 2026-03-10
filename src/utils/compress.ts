@@ -1,16 +1,50 @@
-import { nanoid } from '../utils/id.js'
+import { nanoid } from './id'
 
-const IMAGE_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/avif']
+export const IMAGE_MIME = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'] as const
 
-const readAsDataUrl = (file) =>
+export type SupportedImageMime = (typeof IMAGE_MIME)[number]
+export type OutputFormat = SupportedImageMime | 'auto'
+
+export interface CompressionOptions {
+  quality: number
+  maxDimension: number
+  format: OutputFormat
+}
+
+export interface CompressionMeta {
+  name: string
+  type: SupportedImageMime
+  originalSize: number
+  compressedSize: number
+  ratio: number
+  width: number
+  height: number
+}
+
+export interface CompressedImage {
+  id: string
+  url: string
+  blob: Blob
+  file: File
+  meta: CompressionMeta
+}
+
+const readAsDataUrl = (file: File): Promise<string> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result)
+        return
+      }
+
+      reject(new Error('Failed to read the file'))
+    }
     reader.onerror = () => reject(new Error('Failed to read the file'))
     reader.readAsDataURL(file)
   })
 
-const loadImage = (src) =>
+const loadImage = (src: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => resolve(img)
@@ -18,15 +52,18 @@ const loadImage = (src) =>
     img.src = src
   })
 
-const getCanvas = (width, height) => {
+const getCanvas = (width: number, height: number): HTMLCanvasElement => {
   const canvas = document.createElement('canvas')
   canvas.width = width
   canvas.height = height
   return canvas
 }
 
-export async function compressImage(file, options) {
-  if (!IMAGE_MIME.includes(file.type)) {
+const isSupportedMime = (type: string): type is SupportedImageMime =>
+  IMAGE_MIME.includes(type as SupportedImageMime)
+
+export async function compressImage(file: File, options: CompressionOptions): Promise<CompressedImage> {
+  if (!isSupportedMime(file.type)) {
     throw new Error('Unsupported file type')
   }
 
@@ -41,13 +78,21 @@ export async function compressImage(file, options) {
 
   const canvas = getCanvas(targetWidth, targetHeight)
   const ctx = canvas.getContext('2d')
+  if (!ctx) {
+    throw new Error('Canvas is not available')
+  }
+
   ctx.drawImage(image, 0, 0, targetWidth, targetHeight)
 
-  const outputType = format === 'auto' ? file.type : format
-  const blob = await new Promise((resolve, reject) => {
+  const outputType = (format === 'auto' ? file.type : format) as SupportedImageMime
+  const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
       (result) => {
-        if (!result) return reject(new Error('Compression failed'))
+        if (!result) {
+          reject(new Error('Compression failed'))
+          return
+        }
+
         resolve(result)
       },
       outputType,
@@ -56,6 +101,7 @@ export async function compressImage(file, options) {
   })
 
   const compressedFile = new File([blob], buildFileName(file.name, outputType), { type: outputType })
+
   return {
     id: nanoid(),
     url: URL.createObjectURL(compressedFile),
@@ -73,12 +119,12 @@ export async function compressImage(file, options) {
   }
 }
 
-function buildFileName(originalName, mime) {
+function buildFileName(originalName: string, mime: SupportedImageMime): string {
   const extension = mime.split('/')[1] || 'image'
   const base = originalName.replace(/\.[^.]+$/, '')
   return `${base}-compressed.${extension}`
 }
 
-export function normalizeFiles(list) {
-  return Array.from(list).filter((file) => IMAGE_MIME.includes(file.type))
+export function normalizeFiles(list: FileList | File[]): File[] {
+  return Array.from(list).filter((file): file is File => isSupportedMime(file.type))
 }

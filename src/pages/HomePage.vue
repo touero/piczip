@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import ControlPanel from '../components/ControlPanel.vue'
 import DropZone from '../components/DropZone.vue'
 import QueueList from '../components/QueueList.vue'
 import ResultCard from '../components/ResultCard.vue'
-import { useImageCompressor } from '../composables/useImageCompressor.js'
-import { formatBytes, formatPercent } from '../utils/format.js'
+import { useImageCompressor } from '../composables/useImageCompressor'
+import { formatBytes, formatPercent } from '../utils/format'
+import type { CompressionOptions } from '../utils/compress'
 
 const compressor = useImageCompressor()
 
@@ -15,7 +16,7 @@ const formatLabel = computed(() =>
     : compressor.options.value.format.replace('image/', '').toUpperCase()
 )
 
-const onOptionsChange = (payload) => {
+const onOptionsChange = (payload: CompressionOptions) => {
   compressor.options.value = payload
 }
 </script>

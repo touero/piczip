@@ -1,14 +1,19 @@
-<script setup>
-import { formatBytes } from '../utils/format.js'
+<script setup lang="ts">
+import { formatBytes } from '../utils/format'
+import type { QueueItem } from '../composables/useImageCompressor'
 
-defineProps({
-  items: {
-    type: Array,
-    default: () => [],
-  },
-})
+withDefaults(
+  defineProps<{
+    items?: QueueItem[]
+  }>(),
+  {
+    items: () => [],
+  }
+)
 
-const emit = defineEmits(['remove'])
+const emit = defineEmits<{
+  remove: [id: string]
+}>()
 </script>
 
 <template>
