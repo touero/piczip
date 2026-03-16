@@ -25,23 +25,21 @@ const onDragOver = (event: DragEvent) => {
 
 <template>
   <div
-    class="glass-card rounded-2xl p-6 md:p-8 border-dashed border-2 border-brand-400/60"
+    class="glass-card rounded-2xl p-4 md:p-5 border-dashed border-2 border-brand-400/80 bg-[linear-gradient(135deg,rgba(215,153,33,0.18),rgba(40,40,40,0.95)_42%)]"
     @drop="onDrop"
     @dragover="onDragOver"
   >
-    <div class="flex flex-col gap-4 items-center text-center text-brand-50">
-      <div class="w-14 h-14 rounded-full bg-brand-700 flex items-center justify-center text-surface-900 font-semibold">
-        UP
+    <div class="flex flex-col gap-4 items-start text-brand-50">
+      <div class="space-y-1.5">
+        <p class="section-title">Input</p>
+        <p class="text-lg md:text-2xl font-semibold leading-tight text-brand-50">Select images to compress</p>
+        <p class="text-sm text-brand-200">Drag files here or use the primary button below.</p>
       </div>
-      <div class="space-y-1">
-        <p class="text-lg font-semibold text-brand-50">Drop your images</p>
-        <p class="text-sm text-brand-200">JPEG, PNG, WebP, or AVIF — we keep the quality high while shrinking size.</p>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-3 items-center">
+      <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
         <label
-          class="px-4 py-2 rounded-xl bg-brand-500 text-surface-900 font-semibold shadow-card cursor-pointer hover:bg-brand-600 transition"
+          class="inline-flex items-center justify-center min-w-[12rem] px-5 py-3 rounded-xl bg-brand-500 text-surface-900 text-base font-semibold cursor-pointer shadow-card hover:bg-brand-600 transition"
         >
-          Browse files
+          Select files
           <input
             type="file"
             accept="image/jpeg,image/png,image/webp,image/avif"
@@ -50,7 +48,7 @@ const onDragOver = (event: DragEvent) => {
             @change="onSelect"
           />
         </label>
-        <p class="text-xs text-brand-200">or drag & drop up to 20 images</p>
+        <p class="text-xs text-brand-200">JPEG, PNG, WebP, AVIF. Drag and drop supported.</p>
       </div>
     </div>
   </div>

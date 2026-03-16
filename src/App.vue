@@ -4,16 +4,16 @@ import HomePage from './pages/HomePage.vue'
 
 <template>
   <div class="min-h-screen">
-    <header class="max-w-6xl mx-auto px-4 py-5 flex items-center justify-between">
+    <header class="max-w-6xl mx-auto px-4 py-3 md:py-4 flex items-center justify-between border-b border-surface-700/80">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-brand-600 text-surface-900 font-bold grid place-items-center shadow-card">PZ</div>
+        <div class="w-8 h-8 rounded-lg bg-brand-600 text-surface-900 text-xs font-bold grid place-items-center">PZ</div>
         <div>
-          <p class="text-base font-semibold text-brand-50">PicZip</p>
-          <p class="text-xs text-brand-200">Edge-ready image compression</p>
+          <p class="text-sm font-semibold text-brand-50">PicZip</p>
+          <p class="text-[11px] text-brand-200">Local image compression</p>
         </div>
       </div>
     </header>
     <HomePage />
-    <footer class="max-w-6xl mx-auto px-4 py-8 text-xs text-brand-200">Copyright © 2026 weiensong.</footer>
+    <footer class="max-w-6xl mx-auto px-4 py-4 text-[11px] text-brand-200">© 2026 weiensong</footer>
   </div>
 </template>

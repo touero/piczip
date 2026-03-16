@@ -2,6 +2,8 @@
 
 PicZip is a Vite + Vue + Tailwind single-page app that compresses images entirely in the browser. It ships with a gruvbox-dark theme, Cloudflare Pages configuration, and a production-ready structure.
 
+![preview](./public/preview.png)
+
 ## At a glance
 - Client-side only: files never leave the browser
 - Supported formats: JPEG, PNG, WebP, AVIF
