@@ -12,6 +12,14 @@ import HomePage from './pages/HomePage.vue'
           <p class="text-[11px] text-brand-200">Local image compression</p>
         </div>
       </div>
+      <a
+        href="https://github.com/touero/piczip"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center rounded-lg border border-surface-500 bg-surface-700 px-3 py-1.5 text-xs font-semibold text-brand-50 transition-colors hover:bg-surface-600"
+      >
+        Repo
+      </a>
     </header>
     <HomePage />
     <footer class="max-w-6xl mx-auto px-4 py-4 text-[11px] text-brand-200">© 2026 weiensong</footer>
